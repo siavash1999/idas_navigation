@@ -1,6 +1,6 @@
 # IDAS-navigation
 ## Description
-This package is just for testing capabilities of 'gmapping' package and 'navigation' stack. It has many flaws and is not usable for ROS community, and is published to be version controlled only. This package will continue to evolve and become less absord in time.
+This package is just for testing capabilities of [gmapping package](http://wiki.ros.org/slam_gmapping) and [navigation stack](http://wiki.ros.org/navigation). It has many flaws and is not usable for ROS community, and is published to be version controlled only. This package will continue to evolve and become less absord in time.
 ## Contribution
 Feel free to contact package maintainer, all questions, critisim and bug/issue reports are welcome and you can find maintainer Email address in Package.xml manifest files of all packages.
 
