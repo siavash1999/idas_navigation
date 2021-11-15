@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="round_object">
+  <xacro:include filename="$(find idas_navigation)/urdf/material.xacro"/>
+  <xacro:include filename="$(find idas_navigation)/urdf/snippets.xacro"/>
+
+  <!--============= CONSTANTS =============-->
+  <xacro:property name="robot_ns" value="round_object"/>
+  <xacro:property name="frame_height" value="0.1"/>
+  <xacro:property name="frame_radius" value="0.2"/>
+  <xacro:property name="frame_mass" value="1"/>
+  <xacro:property name="sensor_size" value="0.05"/>
+
+  <!--============= LINKS =============-->
+  <link name="base_link">
+    <xacro:default_cylinder length="${frame_height}"
+                            radius="${frame_radius}"
+                            color="red" mass="${frame_mass}"
+                            x="0" y="0" z="${frame_height/2}"/>
+  </link>
+
+  <link name="sensor_link">
+    <xacro:default_box length="${sensor_size}" width="${sensor_size}"
+                       height="${sensor_size}" color="blue" mass="0.02"/>
+  </link>
+
+  <link name="orientation_link">
+    <xacro:default_box length="0.01" width="0.01" height="0.05" color="white"
+                       mass="0.01"/>
+  </link>
+
+  <!--============= JOINTS =============-->
+  <joint name="sensor_joint" type="fixed">
+    <origin xyz="0 0 ${frame_height+sensor_size/2}"/>
+    <parent link="base_link"/>
+    <child link="sensor_link"/>
+  </joint>
+
+  <joint name="orientation_joint" type="fixed">
+    <origin xyz="${frame_radius-0.035} 0 ${0.025+frame_height}"/>
+    <parent link="base_link"/>
+    <child link="orientation_link"/>
+  </joint>
+  <!--========================== GAZEBO ==========================-->
+  <!--============= LINKS =============-->
+  <gazebo reference="base_link">
+    <material>Gazebo/Red</material>
+    <pose>0 0 0 0 0 0</pose>
+    <kinematic>true</kinematic>
+  </gazebo>
+
+  <gazebo reference="sensor_link" kinematic="true">
+    <material>Gazebo/Blue</material>
+    <!-- sensors -->
+    <xacro:lidar_sensor/>
+    <xacro:imu/>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom_planar</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>50.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <cmdTimeout>-1</cmdTimeout>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+  <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+    <frameName>map</frameName>
+    <bodyName>base_link</bodyName>
+    <topicName>odom</topicName>
+    <updateRate>50.0</updateRate>
+  </plugin>
+</gazebo>
+
+  <gazebo reference='sensor_joint'>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+</robot>

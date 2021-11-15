@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>idas_navigation</name>
+  <version>0.0.1</version>
+  <description>A package to test gmapping package and navigation stack utilities. (Not suitable for any developement). </description>
+  
+  <maintainer email="siaemam@gmail.com">Siavash Emami</maintainer>
+  
+  <license>BSD</license>
+  
+  <!-- <url type="repository"></url> -->
+  
+  <author email="siaemam@gmail.com">Siavash Emami</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>tf</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>tf</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>tf</exec_depend>
+</package>

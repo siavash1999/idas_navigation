@@ -1,0 +1,22 @@
+<launch>
+  <include file="$(find idas_navigation)/launch/gazebo_display.launch"/>
+  <arg name="ns" value="/round_object"/>
+  <arg name="gui" default="true"/>
+  <arg name="rvizconfig" default="$(find idas_navigation)/rviz/rviz_mapping_config.rviz"/>
+
+  <!-- Gmapping node for SLAM -->
+  <node name="slam"
+        pkg="gmapping"
+        type="slam_gmapping"
+        args="scan:=laser/scan"
+        ns="$(arg ns)">
+    <rosparam command="load"
+              file="$(find idas_navigation)/config/gmapping_config.yaml" />
+  </node>
+
+  <node name="rviz"
+        pkg="rviz"
+        type="rviz"
+        args="-d $(arg rvizconfig)"
+        required="true"/>
+</launch>

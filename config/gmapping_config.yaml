@@ -1,0 +1,29 @@
+# For more Information on parameters visit:
+# http://wiki.ros.org/gmapping?distro=noetic#Parameters
+
+base_frame: base_link
+map_frame: map
+odom_frame: odom
+
+minimumScore: 1000000
+maxUrange: 6.0
+maxRange: 8.0
+sigma: 0.05
+kernelSize: 1
+lstep: 0.05
+astep: 0.05
+iterations: 5
+lsigma: 0.075
+ogain: 3.0
+lskip: 0
+srr: 0.01
+srt: 0.02
+str: 0.01
+stt: 0.02
+
+map_update_interval: 1.0
+linearUpdate: 0.5
+angularUpdate: 0.436
+temporalUpdate: -1.0
+resampleThreshold: 0.5
+particles: 80

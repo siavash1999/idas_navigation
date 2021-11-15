@@ -1,0 +1,52 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find idas_navigation)/worlds/maze.world"/>
+		<arg name="paused" default="false"/>
+		<arg name="use_sim_time" default="true"/>
+		<arg name="gui" default="true"/>
+		<arg name="headless" default="false"/>
+		<arg name="debug" default="false"/>
+		<arg name="verbose" value="false"/>
+	</include>
+
+
+  <arg name="model"
+       default="$(find idas_navigation)/urdf/round_object.xacro"/>
+
+  <arg name="model_name" default="round_object"/>
+
+  <group ns="$(arg model_name)">
+    <!-- Loading robot description into ros parameter server -->
+    <param name="/robot_description"
+           command="$(find xacro)/xacro $(arg model)"/>
+
+    <!-- TF state publisher node -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher"
+          type="robot_state_publisher"/>
+
+    <!-- spawns model into gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+          respawn="false"   output="screen"
+          args="-param /robot_description -urdf -model $(arg model_name)"/>
+
+   <!--==================================================================
+     || Two packages for Localization. "robot_localization" works better ||
+      ==================================================================-->
+    <!--<node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+      <param name="output_frame" value="odom"/>
+      <param name="freq" value="30.0"/>
+      <param name="sensor_timeout" value="1.0"/>
+      <param name="odom_used" value="false"/>
+      <param name="imu_used" value="true"/>
+      <param name="vo_used" value="true"/>
+      <param name="debug" value="false"/>
+      <param name="self_diagnose" value="false"/>
+      <remap from="/round_object/robot_pose_ekf/odom_combined" to="/round_object/odom"/>
+    </node>-->
+    <node name="estimator" pkg="robot_localization"
+          type="ukf_localization_node">
+      <rosparam command="load"
+                file="$(find idas_navigation)/config/ukf_config.yaml" />
+    </node>
+  </group>
+</launch>
