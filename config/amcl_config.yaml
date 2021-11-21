@@ -34,6 +34,3 @@ resample_interval: 1
 transform_tolerance: 1.0
 recovery_alpha_slow: 0.0
 recovery_alpha_fast: 0.0
-initial_pose_x: $(arg initial_pose_x)
-initial_pose_y: $(arg initial_pose_y)#: $(arg initial_pose_a)
-use_map_topic: $(arg use_map_topic)

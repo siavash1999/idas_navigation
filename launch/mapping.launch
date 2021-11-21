@@ -1,9 +1,9 @@
 <launch>
   <include file="$(find idas_navigation)/launch/gazebo_display.launch"/>
   <arg name="ns" value="/round_object"/>
-  <arg name="gui" default="true"/>
-  <arg name="rvizconfig" default="$(find idas_navigation)/rviz/rviz_mapping_config.rviz"/>
-
+  <arg name="rvizconfig"
+       default="$(find idas_navigation)/rviz/rviz_mapping_config.rviz"/>
+       
   <!-- Gmapping node for SLAM -->
   <node name="slam"
         pkg="gmapping"

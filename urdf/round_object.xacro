@@ -45,7 +45,9 @@
   <gazebo reference="base_link">
     <material>Gazebo/Red</material>
     <pose>0 0 0 0 0 0</pose>
-    <kinematic>true</kinematic>
+    <kinematic>false</kinematic>
+    <mu1>0</mu1>
+    <mu2>0</mu2>
   </gazebo>
 
   <gazebo reference="sensor_link" kinematic="true">

@@ -1,0 +1,11 @@
+# Documentation in: http://wiki.ros.org/navigation/Tutorials/RobotSetup#Costmap_Configuration_.28local_costmap.29_.26_.28global_costmap.29
+
+obstacle_range: 2.5
+raytrace_range: 3.0
+#footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
+robot_radius: 0.2
+inflation_radius: 0.3
+
+observation_sources: hokuyo_sensor
+
+hokuyo_sensor: {sensor_frame: sensor_link, data_type: LaserScan, topic: /round_object/laser/scan, marking: true, clearing: true}

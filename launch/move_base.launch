@@ -1,0 +1,50 @@
+<launch>
+  <arg name="model_name" default="round_object"/>
+  <arg name="map_name" default="simple_map"/>
+  <arg name="ns" value="/round_object"/>
+  <arg name="model"
+       default="$(find idas_navigation)/urdf/round_object.xacro"/>
+  <arg name="rvizconfig"
+       default="$(find idas_navigation)/rviz/rviz_mapping_config.rviz"/>
+
+ <include file="$(find idas_navigation)/launch/gazebo_display.launch"/>
+
+  <group ns="$(arg ns)">
+    <!-- publishes map metadata which was saved by launching mapping.launch -->
+    <node name="map_server"
+          pkg="map_server"
+          type="map_server"
+          args="$(find idas_navigation)/maps/$(arg map_name).yaml"/>
+
+    <!-- Position Estimation with laser sensor data -->
+    <node name="amcl"
+          pkg="amcl"
+          type="amcl">
+      <rosparam command="load"
+                file="$(find idas_navigation)/config/amcl_config.yaml"/>
+      <param name="initial_pose_x" value="0"/>
+      <param name="initial_pose_y" value="0"/>
+      <param name="initial_pose_a" value="0"/>
+      <param name="use_map_topic" value="/$(arg model_name)/map"/>
+      <remap from="/$(arg model_name)/scan" to="/$(arg model_name)/laser/scan"/>
+    </node>
+
+    <node name="move_base"
+          pkg="move_base"
+          type="move_base"
+          respawn="false"
+          output="screen">
+      <rosparam file="$(find idas_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find idas_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find idas_navigation)/config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find idas_navigation)/config/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find idas_navigation)/config/base_local_planner_params.yaml" command="load" />
+    </node>
+
+    <node name="rviz"
+          pkg="rviz"
+          type="rviz"
+          args="-d $(arg rvizconfig)"
+          required="true"/>
+  </group>
+</launch>
