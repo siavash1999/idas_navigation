@@ -1,6 +1,7 @@
 <launch>
+  <arg name="map" default="simple_map"/>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" default="$(find idas_navigation)/worlds/maze.world"/>
+    <arg name="world_name" default="$(find idas_navigation)/worlds/$(arg map).world"/>
 		<arg name="paused" default="false"/>
 		<arg name="use_sim_time" default="true"/>
 		<arg name="gui" default="true"/>

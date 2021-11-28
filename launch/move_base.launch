@@ -7,8 +7,10 @@
   <arg name="rvizconfig"
        default="$(find idas_navigation)/rviz/rviz_mapping_config.rviz"/>
 
- <include file="$(find idas_navigation)/launch/gazebo_display.launch"/>
 
+  <include file="$(find idas_navigation)/launch/gazebo_display.launch">
+   <arg name="map" default="$(arg map_name)"/>
+  </include>
   <group ns="$(arg ns)">
     <!-- publishes map metadata which was saved by launching mapping.launch -->
     <node name="map_server"
